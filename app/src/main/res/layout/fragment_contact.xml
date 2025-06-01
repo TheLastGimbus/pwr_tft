@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.contact.ContactFragment">
+
+    <TextView
+            android:id="@+id/text_slideshow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:textAlignment="textStart"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="Adres:  Zespół Technologii Cienkowarstwowych Wydział Elektroniki, Fotoniki i Mikrosystemów ul. Janiszewskiego 11/17 50-372 Wrocław  e-mail: tft[at]pwr.edu.pl  prof. dr hab. inż. Jarosław Domaradzki bud. C-2 pok. 011 tel. +48 71 320 40 46  dr hab. inż. Damian Wojcieszak, prof. uczelni bud. C2 pok. 105a tel. +48 71 320 23 75"/>
+    <org.maplibre.android.maps.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_slideshow"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

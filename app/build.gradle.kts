@@ -61,4 +61,6 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.coil.network.okhttp)
     implementation(libs.jsoup)
+    implementation(libs.maplibre.android.sdk)
+    implementation(libs.maplibre.android.plugin.annotation.v9)
 }

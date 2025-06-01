@@ -1,10 +1,10 @@
-package pwr.soszynski.mateusz.tft.ui.slideshow
+package pwr.soszynski.mateusz.tft.ui.contact
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class SlideshowViewModel : ViewModel() {
+class ContactViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is slideshow Fragment"
