@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import pwr.soszynski.mateusz.tft.databinding.FragmentGalleryBinding
+import kotlin.random.Random
 
 class GalleryFragment : Fragment() {
 
@@ -32,6 +33,10 @@ class GalleryFragment : Fragment() {
         galleryViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
+        binding.button1.setOnClickListener {
+            galleryViewModel.text.value = Random.nextDouble().toString()
+        }
+
         return root
     }
 

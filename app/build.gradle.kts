@@ -58,5 +58,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     // MOJE //
-    implementation(libs.skrapeit)
+    implementation(libs.coil)
+    implementation(libs.coil.network.okhttp)
+    implementation(libs.jsoup)
 }

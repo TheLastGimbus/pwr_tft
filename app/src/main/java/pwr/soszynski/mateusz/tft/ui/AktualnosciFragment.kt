@@ -1,60 +1,104 @@
 package pwr.soszynski.mateusz.tft.ui
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
+import androidx.fragment.app.Fragment
+import coil3.load
+import kotlinx.coroutines.*
+import org.jsoup.Jsoup
 import pwr.soszynski.mateusz.tft.R
+import pwr.soszynski.mateusz.tft.databinding.FragmentAktualnosciBinding
+import pwr.soszynski.mateusz.tft.databinding.NewsThumbnailBinding
+import java.net.HttpURLConnection
+import java.net.URL
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AktualnosciFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AktualnosciFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    data class NewsData(
+        val title: String,
+        val link: String,
+        val date: LocalDate,
+        val imgSrc: String,
+    )
+
+    private var _binding: FragmentAktualnosciBinding? = null
+
+    val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        throwable.printStackTrace()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_aktualnosci, container, false)
-    }
+        _binding = FragmentAktualnosciBinding.inflate(inflater, container, false)
+        val root = _binding!!.root
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AktualnosciFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AktualnosciFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        var allNews = mutableListOf<NewsData>()
+
+
+
+        GlobalScope.launch(Dispatchers.Main + coroutineExceptionHandler) {
+            async(Dispatchers.IO + coroutineExceptionHandler) {
+                val news = getNews()
+                Log.d("NEWS", news.toString())
+                withContext(Dispatchers.Main + coroutineExceptionHandler) {
+                    for (n in news) {
+                        val th = inflater.inflate(R.layout.news_thumbnail, _binding!!.newsList, false)
+                        val thBind = NewsThumbnailBinding.bind(th)
+                        thBind.thumbnailImage.load(n.imgSrc)
+                        thBind.date.text = n.date.toString()
+                        thBind.title.text = n.title
+                        thBind.buttonOpen.setOnClickListener {
+                            startActivity(Intent(Intent.ACTION_VIEW, n.link.toUri()))
+                        }
+                        _binding!!.newsList.addView(th)
+                    }
+
+
                 }
             }
+        }
+
+        return root
+    }
+
+
+    fun getNews(): List<NewsData> {
+        val allNews = mutableListOf<NewsData>()
+        val soup = Jsoup.connect("https://tft.pwr.edu.pl/strona-glowna/aktualnosci").get()
+        for (newsDiv in soup.select(".news-box")) {
+            val titleLink = newsDiv.select(".title").first()!!
+            allNews.add(
+                NewsData(
+                    title = titleLink.attr("title"),
+                    link = "https://tft.pwr.edu.pl" + titleLink.attr("href"),
+                    date = LocalDate.parse(
+                        newsDiv.select(".date").first()?.text()?.substring(6) ?: "01.01.1970",
+                        DateTimeFormatter.ofPattern("dd.MM.yyyy")
+                    ),
+                    imgSrc = "https://tft.pwr.edu.pl" + newsDiv.select("img").first()!!.attr("src"),
+                )
+            )
+        }
+        return allNews
+    }
+
+    fun downloadAktualnosci(): String {
+        val url: URL = URL("https://tft.pwr.edu.pl/strona-glowna/aktualnosci")
+        val urlConnection = url.openConnection() as HttpURLConnection
+        return urlConnection.content.toString();
     }
 }

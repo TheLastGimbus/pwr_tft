@@ -9,5 +9,5 @@ class GalleryViewModel : ViewModel() {
     private val _text = MutableLiveData<String>().apply {
         value = "This is gallery Fragment"
     }
-    val text: LiveData<String> = _text
+    val text: MutableLiveData<String> = _text
 }

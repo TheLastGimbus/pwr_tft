@@ -14,7 +14,8 @@ navigationFragmentKtx = "2.6.0"
 navigationUiKtx = "2.6.0"
 
 #### MOJE ####
-skrapeit = "1.2.2"
+jsoup = "1.20.1"
+coil = "3.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -30,7 +31,9 @@ androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navi
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
 
 #### MOJE ####
-skrapeit = { module = "it.skrape:skrapeit", version.ref = "skrapeit" }
+jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
+coil = { module = "io.coil-kt.coil3:coil", version.ref = "coil" }
+coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
