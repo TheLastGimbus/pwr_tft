@@ -34,6 +34,13 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+    packaging {
+        resources {
+            excludes.add("META-INF/*")
+            excludes.add("mozilla/public-suffix-list.txt")
+        }
+    }
 }
 
 dependencies {
@@ -49,4 +56,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // MOJE //
+    implementation(libs.skrapeit)
 }
