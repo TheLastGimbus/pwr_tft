@@ -61,9 +61,7 @@ class AktualnosciFragment : Fragment() {
                         thBind.thumbnailImage.load(n.imgSrc)
                         thBind.date.text = n.date.toString()
                         thBind.title.text = n.title
-                        thBind.buttonOpen.setOnClickListener {
-                            startActivity(Intent(Intent.ACTION_VIEW, n.link.toUri()))
-                        }
+                        thBind.buttonOpen.setOnClickListener { openWebsite(requireContext(), n.link) }
                         _binding!!.newsList.addView(th)
                     }
 

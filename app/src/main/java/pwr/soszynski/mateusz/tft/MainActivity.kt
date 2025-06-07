@@ -13,6 +13,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import pwr.soszynski.mateusz.tft.databinding.ActivityMainBinding
+import pwr.soszynski.mateusz.tft.ui.openWebsite
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,11 +29,11 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.appBarMain.toolbar)
 
-        binding.appBarMain.fab.setOnClickListener { view ->
-            val intent = Intent(Intent.ACTION_VIEW).apply {
-                setData("mailto:milena.kiliszkiewicz@pwr.edu.pl?body=https://github.com/TheLastGimbus/pwr_tft".toUri())
-            }
-            startActivity(intent)
+        binding.appBarMain.fab.setOnClickListener { _ ->
+            openWebsite(
+                this,
+                "mailto:milena.kiliszkiewicz@pwr.edu.pl?body=https://github.com/TheLastGimbus/pwr_tft"
+            )
         }
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_aktualnosci, R.id.nav_home, R.id.nav_gallery, R.id.nav_contact
+                R.id.nav_aktualnosci, R.id.nav_home, R.id.nav_publikacje, R.id.nav_gallery, R.id.nav_contact
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

@@ -18,6 +18,12 @@
             tools:layout="@layout/fragment_home"/>
 
     <fragment
+            android:id="@+id/nav_publikacje"
+            android:name="pwr.soszynski.mateusz.tft.ui.publikacje.PublikacjeFragment"
+            android:label="Publikacje"
+            tools:layout="@layout/fragment_publikacje"/>
+
+    <fragment
             android:id="@+id/nav_gallery"
             android:name="pwr.soszynski.mateusz.tft.ui.gallery.GalleryFragment"
             android:label="@string/menu_gallery"
