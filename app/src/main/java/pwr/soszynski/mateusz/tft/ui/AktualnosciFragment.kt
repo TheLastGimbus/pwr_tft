@@ -1,12 +1,10 @@
 package pwr.soszynski.mateusz.tft.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import coil3.load
 import kotlinx.coroutines.*
@@ -30,10 +28,6 @@ class AktualnosciFragment : Fragment() {
     )
 
     private var _binding: FragmentAktualnosciBinding? = null
-
-    val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        throwable.printStackTrace()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

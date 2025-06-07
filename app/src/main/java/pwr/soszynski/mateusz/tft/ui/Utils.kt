@@ -2,9 +2,16 @@ package pwr.soszynski.mateusz.tft.ui
 
 import android.content.Context
 import android.content.Intent
+import android.util.DisplayMetrics
 import androidx.core.net.toUri
+import kotlinx.coroutines.CoroutineExceptionHandler
 import pwr.soszynski.mateusz.tft.R
 
+val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+    throwable.printStackTrace()
+}
+
+fun Int.toPx(context: Context) = this * context.resources.displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT
 
 fun openWebsite(ctx: Context, url: String) = ctx.startActivity(Intent(Intent.ACTION_VIEW, url.toUri()))
 
