@@ -1,10 +1,8 @@
 package pwr.soszynski.mateusz.tft
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.net.toUri
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -45,6 +43,29 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_aktualnosci, R.id.nav_home, R.id.nav_publikacje, R.id.nav_gallery, R.id.nav_contact
             ), drawerLayout
         )
+        navController.addOnDestinationChangedListener { ctrl, dest, bundle ->
+            when (dest.id) {
+                R.id.nav_contact -> {
+                    binding.appBarMain.fab.setImageResource(R.drawable.baseline_assistant_navigation_24)
+                    binding.appBarMain.fab.setOnClickListener { _ ->
+                        openWebsite(
+                            this,
+                            "https://www.google.com/maps/dir/?api=1&destination=C2+Politechnika+Wrocławska&destination_place_id=ChIJPZWzq7fpD0cRAv07QDSCEoI"
+                        )
+                    }
+                }
+
+                else -> {
+                    binding.appBarMain.fab.setImageResource(R.drawable.outline_alternate_email_24)
+                    binding.appBarMain.fab.setOnClickListener { _ ->
+                        openWebsite(
+                            this,
+                            "mailto:milena.kiliszkiewicz@pwr.edu.pl?body=https://github.com/TheLastGimbus/pwr_tft"
+                        )
+                    }
+                }
+            }
+        }
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
