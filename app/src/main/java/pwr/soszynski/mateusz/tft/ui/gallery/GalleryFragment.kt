@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.annotation.Dimension
-import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil3.load
@@ -14,7 +12,8 @@ import kotlinx.coroutines.*
 import org.jsoup.Jsoup
 import pwr.soszynski.mateusz.tft.databinding.FragmentGalleryBinding
 import pwr.soszynski.mateusz.tft.ui.coroutineExceptionHandler
-import pwr.soszynski.mateusz.tft.ui.toPx
+import java.time.LocalDate
+import kotlin.random.Random
 
 class GalleryFragment : Fragment() {
 
@@ -25,12 +24,9 @@ class GalleryFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val galleryViewModel =
-            ViewModelProvider(this).get(GalleryViewModel::class.java)
+        val galleryViewModel = ViewModelProvider(this).get(GalleryViewModel::class.java)
 
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -40,15 +36,10 @@ class GalleryFragment : Fragment() {
             async(Dispatchers.IO + coroutineExceptionHandler) {
                 val photos = getPhotos()
                 withContext(Dispatchers.Main + coroutineExceptionHandler) {
+                    _binding!!.zdjecieDnia.load(photos.random(Random(LocalDate.now().dayOfMonth)).second)
                     for (photo in photos) {
-
                         val img = ImageView(requireContext())
-
-//                        img.updateLayoutParams {
-//                            width = 64.toPx(requireContext())
-//                            height = 64.toPx(requireContext())
-//                        }
-                        img.load(photo)
+                        img.load(photo.first)
                         _binding!!.flexGallery.addView(img)
                     }
 
@@ -59,9 +50,14 @@ class GalleryFragment : Fragment() {
         return root
     }
 
-    fun getPhotos(): List<String> {
+    fun getPhotos(): List<Pair<String, String>> {
         val soup = Jsoup.connect("https://tft.pwr.edu.pl/strona-glowna/galeria/").get()
-        return soup.select("#module-description-content img").map { img -> "https://tft.pwr.edu.pl" + img.attr("src") }
+        return soup.select(".photo").map { link ->
+            Pair(
+                "https://tft.pwr.edu.pl" + link.select("img").first()!!.attr("src"),
+                "https://tft.pwr.edu.pl" + link.select("a").first()!!.attr("href")
+            )
+        }
     }
 
     override fun onDestroyView() {
