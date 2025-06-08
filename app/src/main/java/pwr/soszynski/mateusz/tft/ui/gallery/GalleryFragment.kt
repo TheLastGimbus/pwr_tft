@@ -1,5 +1,6 @@
 package pwr.soszynski.mateusz.tft.ui.gallery
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import coil3.load
 import kotlinx.coroutines.*
 import org.jsoup.Jsoup
+import pwr.soszynski.mateusz.tft.BigPhotoActivity
 import pwr.soszynski.mateusz.tft.databinding.FragmentGalleryBinding
 import pwr.soszynski.mateusz.tft.ui.coroutineExceptionHandler
 import java.time.LocalDate
@@ -36,10 +38,30 @@ class GalleryFragment : Fragment() {
             async(Dispatchers.IO + coroutineExceptionHandler) {
                 val photos = getPhotos()
                 withContext(Dispatchers.Main + coroutineExceptionHandler) {
-                    _binding!!.zdjecieDnia.load(photos.random(Random(LocalDate.now().dayOfMonth)).second)
+                    val randomPhoto  = photos.random(Random(LocalDate.now().dayOfMonth))
+                    _binding!!.zdjecieDnia.load(randomPhoto.second)
+                    _binding!!.zdjecieDnia.setOnClickListener {
+                        startActivity(Intent(requireContext(), BigPhotoActivity::class.java).apply {
+                            putExtra(
+                                BigPhotoActivity.IMAGES_SRC_PATH_ARRAY,
+                                photos.map { it.second }.toTypedArray()
+                            )
+                            putExtra(BigPhotoActivity.START_IMAGE_INDEX, photos.indexOf(randomPhoto))
+                        })
+                    }
+
                     for (photo in photos) {
                         val img = ImageView(requireContext())
                         img.load(photo.first)
+                        img.setOnClickListener {
+                            startActivity(Intent(requireContext(), BigPhotoActivity::class.java).apply {
+                                putExtra(
+                                    BigPhotoActivity.IMAGES_SRC_PATH_ARRAY,
+                                    photos.map { it.second }.toTypedArray()
+                                )
+                                putExtra(BigPhotoActivity.START_IMAGE_INDEX, photos.indexOf(photo))
+                            })
+                        }
                         _binding!!.flexGallery.addView(img)
                     }
 
