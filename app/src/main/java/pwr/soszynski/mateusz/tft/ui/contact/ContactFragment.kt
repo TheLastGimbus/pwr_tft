@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import org.maplibre.android.MapLibre
 import org.maplibre.android.camera.CameraPosition
 import org.maplibre.android.geometry.LatLng
@@ -16,6 +14,7 @@ import org.maplibre.android.style.layers.Property
 import org.maplibre.android.utils.BitmapUtils
 import pwr.soszynski.mateusz.tft.R
 import pwr.soszynski.mateusz.tft.databinding.FragmentContactBinding
+import pwr.soszynski.mateusz.tft.ui.openWebsite
 
 class ContactFragment : Fragment() {
 
@@ -37,6 +36,10 @@ class ContactFragment : Fragment() {
         _binding = FragmentContactBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        _binding!!.textViewEmail.setOnClickListener { openWebsite(requireContext(), "mailto:tft@pwr.edu.pl") }
+        _binding!!.textViewNumerDomaradzki.setOnClickListener { openWebsite(requireContext(), "tel:+48713204046") }
+        _binding!!.textViewNumerWojcieszak.setOnClickListener { openWebsite(requireContext(), "tel:+48713202375") }
+
         val latLngC2 = LatLng(51.108940, 17.060984)
         val mapView = binding.mapView
         mapView.getMapAsync { map ->
@@ -52,7 +55,7 @@ class ContactFragment : Fragment() {
                 sm.create(
                     SymbolOptions()
                         .withIconImage(ID_ICON_TAG)
-                        .withIconSize(0.7f)
+                        .withIconSize(0.6f)
                         .withLatLng(latLngC2)
                         .withIconAnchor(Property.ICON_ANCHOR_BOTTOM)
                 )
