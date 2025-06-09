@@ -30,7 +30,10 @@
             android:id="@+id/autorzyList">
     </com.google.android.flexbox.FlexboxLayout>
     <Button
-            android:text="Przeczytaj!"
+            style="@style/Widget.Material3.Button"
+            android:textSize="22sp"
+            android:text="Przeczytaj 👀"
             android:layout_width="match_parent"
-            android:layout_height="96dp" android:id="@+id/buttonRead" android:layout_weight="1"/>
+            android:layout_margin="8dp"
+            android:layout_height="86dp" android:id="@+id/buttonRead" android:layout_weight="1"/>
 </LinearLayout>
