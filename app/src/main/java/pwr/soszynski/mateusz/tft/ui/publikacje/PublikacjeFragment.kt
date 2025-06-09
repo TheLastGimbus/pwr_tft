@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import pwr.soszynski.mateusz.tft.R
 import pwr.soszynski.mateusz.tft.databinding.FragmentPublikacjeBinding
@@ -39,9 +38,14 @@ class PublikacjeFragment : Fragment() {
         mShaker!!.setOnShakeListener(object : OnShakeListener {
             override fun onShake() {
                 Log.i("SHAKE", "SHAKE SHAKE SHAKE")
+                if (!isAdded) return
 
-                val v = requireContext().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-                v.vibrate(500)
+                try {
+                    val v = requireContext().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                    v.vibrate(500)
+                } catch (e: Exception) {
+                    return
+                }
 
                 val pub = publikacje.random()
 
