@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_aktualnosci, R.id.nav_home, R.id.nav_publikacje, R.id.nav_gallery, R.id.nav_contact
+                R.id.nav_aktualnosci, R.id.nav_publikacje, R.id.nav_gallery, R.id.nav_contact
             ), drawerLayout
         )
         navController.addOnDestinationChangedListener { ctrl, dest, bundle ->
