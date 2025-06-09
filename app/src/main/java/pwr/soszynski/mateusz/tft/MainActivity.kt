@@ -1,7 +1,9 @@
 package pwr.soszynski.mateusz.tft
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
@@ -29,8 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.appBarMain.fab.setOnClickListener { _ ->
             openWebsite(
-                this,
-                "mailto:milena.kiliszkiewicz@pwr.edu.pl?body=https://github.com/TheLastGimbus/pwr_tft"
+                this, "mailto:milena.kiliszkiewicz@pwr.edu.pl?body=https://github.com/TheLastGimbus/pwr_tft"
             )
         }
         val drawerLayout: DrawerLayout = binding.drawerLayout
@@ -59,8 +60,7 @@ class MainActivity : AppCompatActivity() {
                     binding.appBarMain.fab.setImageResource(R.drawable.outline_alternate_email_24)
                     binding.appBarMain.fab.setOnClickListener { _ ->
                         openWebsite(
-                            this,
-                            "mailto:milena.kiliszkiewicz@pwr.edu.pl?body=https://github.com/TheLastGimbus/pwr_tft"
+                            this, "mailto:milena.kiliszkiewicz@pwr.edu.pl?body=https://github.com/TheLastGimbus/pwr_tft"
                         )
                     }
                 }
@@ -68,6 +68,18 @@ class MainActivity : AppCompatActivity() {
         }
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_settings -> {
+                startActivity(Intent(this, AboutActivity::class.java))
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
