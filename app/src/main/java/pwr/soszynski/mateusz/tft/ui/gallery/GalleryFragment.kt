@@ -6,14 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.view.setMargins
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil3.load
+import com.google.android.flexbox.FlexboxLayout
+import com.google.android.material.imageview.ShapeableImageView
+import com.google.android.material.shape.ShapeAppearanceModel
 import kotlinx.coroutines.*
 import org.jsoup.Jsoup
 import pwr.soszynski.mateusz.tft.BigPhotoActivity
+import pwr.soszynski.mateusz.tft.R
 import pwr.soszynski.mateusz.tft.databinding.FragmentGalleryBinding
 import pwr.soszynski.mateusz.tft.ui.coroutineExceptionHandler
+import pwr.soszynski.mateusz.tft.ui.toPx
 import java.time.LocalDate
 import kotlin.random.Random
 
@@ -38,7 +44,7 @@ class GalleryFragment : Fragment() {
             async(Dispatchers.IO + coroutineExceptionHandler) {
                 val photos = getPhotos()
                 withContext(Dispatchers.Main + coroutineExceptionHandler) {
-                    val randomPhoto  = photos.random(Random(LocalDate.now().dayOfMonth))
+                    val randomPhoto = photos.random(Random(LocalDate.now().dayOfMonth))
                     _binding!!.zdjecieDnia.load(randomPhoto.second)
                     _binding!!.zdjecieDnia.setOnClickListener {
                         startActivity(Intent(requireContext(), BigPhotoActivity::class.java).apply {
@@ -51,7 +57,19 @@ class GalleryFragment : Fragment() {
                     }
 
                     for (photo in photos) {
-                        val img = ImageView(requireContext())
+                        val img = ShapeableImageView(requireContext())
+                        img.shapeAppearanceModel = ShapeAppearanceModel.builder(
+                            requireContext(),
+                            R.style.roundedImageView,
+                            R.style.roundedImageView
+                        ).build()
+                        img.layoutParams = FlexboxLayout.LayoutParams(
+                            92.toPx(requireContext()),
+                            92.toPx(requireContext())
+                        ).apply {
+                            setMargins(2.toPx(requireContext()))
+                        }
+                        img.scaleType = ImageView.ScaleType.CENTER_CROP
                         img.load(photo.first)
                         img.setOnClickListener {
                             startActivity(Intent(requireContext(), BigPhotoActivity::class.java).apply {
